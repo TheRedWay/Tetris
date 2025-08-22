@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="favico.ico" type="ico">
+    <script src="JS/Engene.js"></script>
+    <script src="JS/Objects.js"></script>
+    <title>Tetris</title>
+</head>
+
+<body>
+
+    <div class="playfield"></div>
+    <script>
+    var playfield = document.querySelector('.playfield');
+
+        createGrid(WIDTH, HEIGHT, document.querySelector('.playfield'));
+    </script>
+
+    <div class="menu">
+        <div class="info">СЧЁТ<br>0000</div>
+        <div class="next"></div>
+        <script>
+            var nextfield = document.querySelector('.next');
+            createGrid(4, 4, document.querySelector('.next'));
+            Play();
+
+        </script>
+    </div>
+
+</body>
+
+</html>
