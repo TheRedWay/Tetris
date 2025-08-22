@@ -69,6 +69,7 @@ class TetPul {
 }
 
 
+
 function Play() {
     let ticker = new GameTicker(1, tickUpdate);
     let TetStack = new TetPul();
@@ -241,13 +242,14 @@ function createGrid(width, height, parentEl) {
 }
 
 function checkNoCollision(tet, _x, _y) {
-    if (playFieldMask[_x][_y] == 1) return false;
+    
     for (let block of tet.blocks) {
         console.log(`x:${_x + block.x}, y:${_y + block.y}`)
         if ((_x + block.x < 0) || (_x + block.x > 9) || (_y + block.y > 19) || (playFieldMask[_x + block.x][_y + block.y] === 1)) {
             return false;
         }
     }
+    if (playFieldMask[_x][_y] == 1) return false;
     return true;
 }
 

@@ -5,7 +5,7 @@ class Tetromino {
         this.cantMoveDown = false;
     }
 
-    rotateLeft() {
+    rotateRight() {
         this.blocks.forEach(block => {
             const oldX = block.x;
             block.x = -block.y;
@@ -13,7 +13,7 @@ class Tetromino {
         });
     }
 
-    rotateRight() {
+    rotateLeft() {
         this.blocks.forEach(block => {
             const oldX = block.x;
             block.x = block.y;
