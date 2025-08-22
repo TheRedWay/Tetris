@@ -2,17 +2,12 @@ const WIDTH = 10;
 const HEIGHT = 20;
 
 var curTet = 0;
-var playFieldMask = new Array(HEIGHT); ////////////////////////////////ЛОМАЕТСЯ ИСПРАВИТЬ
+let playFieldMask = new Array(WIDTH);
 
-
-
-for (let i = 0; i < HEIGHT; i++) {
-    playFieldMask[i] = new Array(WIDTH);
-}
-
-for (let i = 0; i < HEIGHT; i++) {
-    for (let j = 0; j < WIDTH; j++) {
-        playFieldMask[i][j] = 0;
+for (let x = 0; x < WIDTH; x++) {
+    playFieldMask[x] = new Array(HEIGHT);
+    for (let y = 0; y < HEIGHT; y++) {
+        playFieldMask[x][y] = 0;
     }
 }
 
@@ -130,24 +125,24 @@ function moveDown(tet) {
 }
 
 function leftRotate(tet) {
-    undrawTet(playfield,tet);
+    undrawTet(playfield, tet);
     tet.rotateLeft();
     if (!checkNoCollision(tet, tet.position.x, tet.position.y)) {
         console.log("Cannot rotate");
         tet.rotateRight();
     }
-    drawTet(playfield,tet);
+    drawTet(playfield, tet);
 }
 
 function rightRotate(tet) {
-    undrawTet(playfield,tet);
+    undrawTet(playfield, tet);
     tet.rotateRight();
     if (!checkNoCollision(tet, tet.position.x, tet.position.y)) {
         console.log("Cannot rotate");
 
         tet.rotateLeft();
     }
-    drawTet(playfield,tet);
+    drawTet(playfield, tet);
 }
 // function fallDown(tet) { \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\Доделать
 //     if(checkNoCollision(tet,tet.position.x, tet.position.y)){
@@ -159,13 +154,13 @@ function rightRotate(tet) {
 
 function drawCell(context, _x, _y) {
     let target = context.querySelector(`.cell[data-index = "${_x}${_y}"]`);
-    playFieldMask[_x][_y] = 1;
+    if (context === playfield) { playFieldMask[_x][_y] = 1; }
     target.classList.add("tet");
 }
 
 function undrawCell(context, _x, _y) {
     let target = context.querySelector(`.cell[data-index = "${_x}${_y}"]`);
-    playFieldMask[_x][_y] = 0;
+    if (context === playfield) { playFieldMask[_x][_y] = 0; }
     target.classList.remove("tet");
 }
 
@@ -201,42 +196,30 @@ function redrawPlayField(context) {
 }
 
 function clearLines() {
-    for (let y = HEIGHT - 1; y >= 4; y--) {
-        let full = true;
-
-        for (let x = 0; x < WIDTH; x++) {
+    for (let y = HEIGHT - 1; y >= 0; y--) {
+        let notClear = true; for (let x = 0; x < WIDTH; x++) {
             if (playFieldMask[x][y] === 0) {
-                full = false;
-                break;
+                notClear = false; break;
             }
-        }
-
-        if (full) {
-            // Сдвигаем строки вниз
+        } if (notClear) {
+            for (let x = 0; x < WIDTH; x++) {
+                playFieldMask[x][y] = 0;
+            }
             for (let curLine = y; curLine > 0; curLine--) {
                 for (let x = 0; x < WIDTH; x++) {
                     playFieldMask[x][curLine] = playFieldMask[x][curLine - 1];
                 }
             }
-
-            // Обнуляем верхнюю строку
-            for (let x = 0; x < WIDTH; x++) {
-                playFieldMask[x][0] = 0;
-            }
-
-            // Проверяем ту же строку снова (после сдвига)
             y++;
         }
     }
-
-    // Перерисовываем только один раз в конце
     redrawPlayField(playfield);
 }
 
 
 function tickUpdate() {
     if (window.curTet.cantMoveDown === true) {
-        //clearLines();
+        clearLines();
         return true;
     } else {
         undrawTet(playfield, window.curTet);
@@ -261,7 +244,7 @@ function checkNoCollision(tet, _x, _y) {
     if (playFieldMask[_x][_y] == 1) return false;
     for (let block of tet.blocks) {
         console.log(`x:${_x + block.x}, y:${_y + block.y}`)
-        if ((_x + block.x < 0) || (_x + block.x > 9) || (_y + block.y > 19) || (playFieldMask[_x + block.x][_y + block.y] == 1)) {
+        if ((_x + block.x < 0) || (_x + block.x > 9) || (_y + block.y > 19) || (playFieldMask[_x + block.x][_y + block.y] === 1)) {
             return false;
         }
     }
