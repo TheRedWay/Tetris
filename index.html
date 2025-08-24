@@ -11,16 +11,26 @@
 </head>
 
 <body>
-
+    <div id="loader">
+        Загрузка...
+    </div>
+    <script>
+        window.onload = function () {
+            const loader = document.getElementById('loader');
+            loader.classList.add('hidden');
+        };
+    </script>
     <div class="playfield"></div>
     <script>
-    var playfield = document.querySelector('.playfield');
+        var playfield = document.querySelector('.playfield');
 
         createGrid(WIDTH, HEIGHT, document.querySelector('.playfield'));
     </script>
 
     <div class="menu">
-        <div class="info">СЧЁТ<br><div id="score">0000</div></div>
+        <div class="info">СЧЁТ<br>
+            <div id="score">0000</div>
+        </div>
         <div class="next"></div>
         <script>
             var nextfield = document.querySelector('.next');

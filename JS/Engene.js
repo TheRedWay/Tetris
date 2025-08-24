@@ -12,13 +12,13 @@ for (let x = 0; x < WIDTH; x++) {
 }
 
 class Score {
-    constructor(){
+    constructor() {
         this.score = 0;
-        this.scoreArr = ["0","0","0","0"];
+        this.scoreArr = ["0", "0", "0", "0"];
     }
-    add(count){
+    add(count) {
         this.score += count;
-        if(this.score > 9999) this.score = 9999;
+        if (this.score > 9999) this.score = 9999;
         this.scoreArr[3] = this.score % 10;
         this.scoreArr[2] = Math.floor((this.score % 100) / 10);
         this.scoreArr[1] = Math.floor((this.score % 1000) / 100);
@@ -121,6 +121,8 @@ function Play() {
 function moveRight(tet) {
     if (checkNoCollision(tet, tet.position.x + 1, tet.position.y)) {
         tet.position.x = tet.position.x + 1;
+        if (checkNoCollision(tet, tet.position.x, tet.position.y + 1))
+            tet.cantMoveDown = false;
     }
 
 }
@@ -128,6 +130,8 @@ function moveRight(tet) {
 function moveLeft(tet) {
     if (checkNoCollision(tet, tet.position.x - 1, tet.position.y)) {
         tet.position.x = tet.position.x - 1;
+        if (checkNoCollision(tet, tet.position.x, tet.position.y + 1))
+            tet.cantMoveDown = false;
     }
 
 }
@@ -162,11 +166,7 @@ function rightRotate(tet) {
     }
     drawTet(playfield, tet);
 }
-// function fallDown(tet) { \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\Доделать
-//     if(checkNoCollision(tet,tet.position.x, tet.position.y)){
-//     tet.position.y = tet.position.y + 1;
-//     }
-// }
+
 
 
 
@@ -262,7 +262,7 @@ function createGrid(width, height, parentEl) {
 }
 
 function checkNoCollision(tet, _x, _y) {
-    
+
     for (let block of tet.blocks) {
         console.log(`x:${_x + block.x}, y:${_y + block.y}`)
         if ((_x + block.x < 0) || (_x + block.x > 9) || (_y + block.y > 19) || (playFieldMask[_x + block.x][_y + block.y] === 1)) {
@@ -275,8 +275,8 @@ function checkNoCollision(tet, _x, _y) {
 
 
 let is_rotation = false;
-document.addEventListener("keydown", (e) => {
-    switch (e.key) {
+document.addEventListener("keydown", (Event) => {
+    switch (Event.key) {
         case "ArrowLeft":
 
             if (is_rotation) {
@@ -313,7 +313,7 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-document.addEventListener("keyup", (e) => {
+document.addEventListener("keyup", (Event) => {
 
-    if (e.key == "ArrowUp") { is_rotation = false; }
+    if (Event.key == "ArrowUp") { is_rotation = false; }
 });
