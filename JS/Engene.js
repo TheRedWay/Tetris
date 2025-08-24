@@ -11,6 +11,23 @@ for (let x = 0; x < WIDTH; x++) {
     }
 }
 
+class Score {
+    constructor(){
+        this.score = 0;
+        this.scoreArr = ["0","0","0","0"];
+    }
+    add(count){
+        this.score += count;
+        if(this.score > 9999) this.score = 9999;
+        this.scoreArr[3] = this.score % 10;
+        this.scoreArr[2] = Math.floor((this.score % 100) / 10);
+        this.scoreArr[1] = Math.floor((this.score % 1000) / 100);
+        this.scoreArr[0] = Math.floor(this.score / 1000);
+        document.querySelector('#score').textContent = this.scoreArr.join("");
+    }
+}
+var score = new Score();
+
 class GameTicker {
     constructor(rate, onTick) {
         this.rate = rate;
@@ -197,6 +214,7 @@ function redrawPlayField(context) {
 }
 
 function clearLines() {
+    let strick = 0;
     for (let y = HEIGHT - 1; y >= 0; y--) {
         let notClear = true; for (let x = 0; x < WIDTH; x++) {
             if (playFieldMask[x][y] === 0) {
@@ -211,9 +229,11 @@ function clearLines() {
                     playFieldMask[x][curLine] = playFieldMask[x][curLine - 1];
                 }
             }
+            strick++;
             y++;
         }
     }
+    window.score.add((10 * strick * strick));
     redrawPlayField(playfield);
 }
 
