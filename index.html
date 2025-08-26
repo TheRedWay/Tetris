@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="index.css">
     <link rel="icon" href="favico.ico" type="ico">
-    <script src="JS/Engene.js"></script>
+    <script async src="JS/Engene.js"></script>
     <script src="JS/Objects.js"></script>
     <title>Tetris</title>
 </head>
@@ -15,10 +15,26 @@
         Загрузка...
     </div>
     <script>
+        const WIDTH = 10;
+        const HEIGHT = 20;
+
         window.onload = function () {
             const loader = document.getElementById('loader');
             loader.classList.add('hidden');
+            // Play();
         };
+
+        function createGrid(width, height, parentEl) {
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < width * height; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = (i % width).toString() + (Math.trunc(i / width)).toString();
+                fragment.appendChild(cell);
+            }
+            parentEl.appendChild(fragment);
+        }
+
     </script>
     <div class="playfield"></div>
     <script>
@@ -35,11 +51,12 @@
         <script>
             var nextfield = document.querySelector('.next');
             createGrid(4, 4, document.querySelector('.next'));
-            Play();
+
 
         </script>
+        <div id = "start">играть</div>
     </div>
-
+    
 </body>
 
 </html>

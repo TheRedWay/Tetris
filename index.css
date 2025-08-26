@@ -78,3 +78,8 @@ body {
   visibility: hidden;
   transition: opacity 1s ease;
 }
+
+#start{
+  font-size: 35px;
+  cursor: pointer;
+}

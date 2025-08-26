@@ -1,5 +1,5 @@
-const WIDTH = 10;
-const HEIGHT = 20;
+// const WIDTH = 10;
+// const HEIGHT = 20;
 
 var curTet = 0;
 let playFieldMask = new Array(WIDTH);
@@ -46,7 +46,7 @@ class GameTicker {
             this.onStop();
             return;
         };
-        console.log(playFieldMask);
+        (playFieldMask);
         const nextDelay = Math.max(0, this.tickLength - (performance.now() - this.lastTime));
         setTimeout(() => this.Tick(context), nextDelay);
     }
@@ -79,7 +79,7 @@ class TetPul {
             return true;
         }
         else {
-            console.log("Cannot spawn");
+
             return false;
         }
     }
@@ -98,9 +98,10 @@ function Play() {
         if (TetStack.SpawnTet()) {
             setTimeout(ticker.start(playfield, playLoop), 1000);
         } else {
-            console.log("Game over!");
+            ("Game over!");
             clearTimeout();
             GameOver = true;
+            document.removeEventListener("keydown", keys);
         }
     }
     playLoop();
@@ -138,7 +139,7 @@ function moveLeft(tet) {
 
 function moveDown(tet) {
     let res = checkNoCollision(tet, tet.position.x, tet.position.y + 1);
-    console.log(res);
+    (res);
     if (res) {
         tet.position.y = tet.position.y + 1;
     } else {
@@ -150,7 +151,7 @@ function leftRotate(tet) {
     undrawTet(playfield, tet);
     tet.rotateLeft();
     if (!checkNoCollision(tet, tet.position.x, tet.position.y)) {
-        console.log("Cannot rotate");
+
         tet.rotateRight();
     }
     drawTet(playfield, tet);
@@ -160,7 +161,7 @@ function rightRotate(tet) {
     undrawTet(playfield, tet);
     tet.rotateRight();
     if (!checkNoCollision(tet, tet.position.x, tet.position.y)) {
-        console.log("Cannot rotate");
+
 
         tet.rotateLeft();
     }
@@ -250,21 +251,12 @@ function tickUpdate() {
     }
 }
 
-function createGrid(width, height, parentEl) {
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < width * height; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.dataset.index = (i % width).toString() + (Math.trunc(i / width)).toString();
-        fragment.appendChild(cell);
-    }
-    parentEl.appendChild(fragment);
-}
+
 
 function checkNoCollision(tet, _x, _y) {
 
     for (let block of tet.blocks) {
-        console.log(`x:${_x + block.x}, y:${_y + block.y}`)
+        (`x:${_x + block.x}, y:${_y + block.y}`)
         if ((_x + block.x < 0) || (_x + block.x > 9) || (_y + block.y > 19) || (playFieldMask[_x + block.x][_y + block.y] === 1)) {
             return false;
         }
@@ -275,7 +267,22 @@ function checkNoCollision(tet, _x, _y) {
 
 
 let is_rotation = false;
-document.addEventListener("keydown", (Event) => {
+document.addEventListener("keydown", keys);
+
+document.addEventListener("keyup", (Event) => {
+
+    if (Event.key == "ArrowUp") { is_rotation = false; }
+});
+
+let playB = document.querySelector("#start");
+playB.addEventListener("mousedown", (Event) => {
+    Event.target.style.display = "none";
+    Play();
+});
+
+
+
+function keys(Event) {
     switch (Event.key) {
         case "ArrowLeft":
 
@@ -284,7 +291,7 @@ document.addEventListener("keydown", (Event) => {
                 leftRotate(curTet);
 
             } else {
-                console.log("left");
+
                 undrawTet(playfield, window.curTet);
                 moveLeft(curTet);
                 drawTet(playfield, window.curTet);
@@ -307,13 +314,8 @@ document.addEventListener("keydown", (Event) => {
             drawTet(playfield, window.curTet);
             break;
         case "ArrowUp":
-            console.log("Rotation");
+
             is_rotation = true;
             break;
     }
-});
-
-document.addEventListener("keyup", (Event) => {
-
-    if (Event.key == "ArrowUp") { is_rotation = false; }
-});
+}
