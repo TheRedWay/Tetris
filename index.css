@@ -1,7 +1,7 @@
 :root {
   --cell-size: 28px;
   --gap: calc(var(--cell-size) / 7);
-}
+} 
 
 @font-face {
   font-family: "Digiface";
@@ -15,11 +15,13 @@ body {
   flex-wrap: wrap;
   font-family: "Digiface";
   margin: 0;
-  padding: 10px;
+  padding: 40px;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .main-container{
-  height: 70%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -96,12 +98,23 @@ body {
   cursor: pointer;
 }
 
-@media screen and (max-width: 800px){
+@media (max-width: 700px){
+  :root{
+    --cell-size: calc(90vw / 15);
+  }
+  body{
+    padding: 10px;
+    align-items: center;
+  }
   .main-container{
     flex-direction: column;
+    gap: 5px;
   }
   .menu{
     flex-direction: row;
+    gap: 4px;
   }
-
+  .info, #start{
+    font-size: calc(90vw / 13);
+  }
 }
