@@ -319,3 +319,44 @@ function keys(Event) {
             break;
     }
 }
+
+
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+document.addEventListener("touchstart", (e) => {
+    const touch = e.changedTouches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+}, false);
+
+document.addEventListener("touchend", (e) => {
+    const touch = e.changedTouches[0];
+    touchEndX = touch.clientX;
+    touchEndY = touch.clientY;
+
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 30) {
+            undrawTet(playfield, window.curTet);
+            moveRight(curTet);
+            drawTet(playfield, window.curTet);
+        } else if (dx < -30) {
+            undrawTet(playfield, window.curTet);
+            moveLeft(curTet);
+            drawTet(playfield, window.curTet);
+        }
+    } else {
+        if (dy > 30) {
+            undrawTet(playfield, window.curTet);
+            moveDown(window.curTet);
+            drawTet(playfield, window.curTet);
+        } else if (dy < -30) {
+            rightRotate(curTet);
+        }
+    }
+}, false);
