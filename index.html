@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <div id="loader">
+    <!-- <div id="loader">
         Загрузка...
-    </div>
+    </div> -->
     <script>
         const WIDTH = 10;
         const HEIGHT = 20;
@@ -36,27 +36,31 @@
         }
 
     </script>
-    <div class="playfield"></div>
-    <script>
-        var playfield = document.querySelector('.playfield');
 
-        createGrid(WIDTH, HEIGHT, document.querySelector('.playfield'));
-    </script>
-
-    <div class="menu">
-        <div class="info">СЧЁТ<br>
-            <div id="score">0000</div>
-        </div>
-        <div class="next"></div>
+    <div class="main-container">
+        <div class="playfield"></div>
         <script>
-            var nextfield = document.querySelector('.next');
-            createGrid(4, 4, document.querySelector('.next'));
+            var playfield = document.querySelector('.playfield');
 
-
+            createGrid(WIDTH, HEIGHT, document.querySelector('.playfield'));
         </script>
-        <div id = "start">играть</div>
+
+        <div class="menu">
+            <div>
+                <div class="info">СЧЁT</div>
+                <div class="info score" id="score">0000</div>
+            </div>
+            
+            <div class="next"></div>
+            <script>
+                var nextfield = document.querySelector('.next');
+                createGrid(4, 4, document.querySelector('.next'));
+
+
+            </script>
+            <div id="start">играть</div>
+        </div>
     </div>
-    
 </body>
 
 </html>
