@@ -83,3 +83,9 @@ body {
   font-size: 35px;
   cursor: pointer;
 }
+
+@media screen {
+  :root {
+  --cell-size: 28px;
+}
+}
